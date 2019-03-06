@@ -23,7 +23,7 @@ class App extends React.Component {
     };
   }
   inputChangeHandler = event => {
-    this.setState({ [event.target.task]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
   };
   formSubmitHandler = event => {
     event.preventDefault();
@@ -45,6 +45,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <div>
+          {this.state.stateTasks.map((task, id) => (
+            <TodoList task={task} key={id} /> 
+          ))} 
+        </div>
         <form onSubmit={this.formSubmitHandler}>
           <input 
             name="task" 
@@ -53,12 +58,8 @@ class App extends React.Component {
             placeholder="...todo"
           />
           <button type="submit">Add Todo</button>
+          <button>Clear Completed</button>
         </form>  
-        <div>
-          {this.state.stateTasks.map((task, id) => (
-            <TodoList task={task} key={id} /> 
-          ))} 
-        </div>
       </div>
     )
   } 
