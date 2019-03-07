@@ -1,13 +1,6 @@
 import React from 'react';
 import TodoList from "./components/TodoComponents/TodoList";
-
-const tasks = [
-  {
-    task: '',
-    id: 0,
-    completed: false,
-  },
-];
+import TodoForm from "./components/TodoComponents/TodoForm";
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
@@ -16,10 +9,14 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-       stateTasks: tasks,
-       task: "",
-       id: Date.now(),
-       completed: false,
+       todos: [
+        {
+          task: '',
+          id: Date.now(),
+          completed: false,
+        },
+      ],
+       todo: ''
     };
   }
   inputChangeHandler = event => {
@@ -27,41 +24,36 @@ class App extends React.Component {
   };
   formSubmitHandler = event => {
     event.preventDefault();
-    let newTask = {
-      task: this.state.task,
-      id: this.state.id,
-      completed: this.state.completed,
+    let newTodo = {
+      task: "",
+      id: Date.now(),
+      completed: false,
     };
     this.setState(prevState => {
       return {
-        stateTasks: [...prevState.stateTasks, newTask],
-        task: "",
-        id: Date.now(),
-        completed: false,
+        todos: [...prevState.todos, newTodo],
+        todo: "",
       };
     });
   };  
 
   render() {
     return (
-      <div>
+    
         <div>
-          {this.state.stateTasks.map((task, id) => (
-            <TodoList task={task} key={id} /> 
-          ))} 
-        </div>
-        <form onSubmit={this.formSubmitHandler}>
-          <input 
-            name="task" 
-            value={this.state.task}
-            onChange={this.inputChangeHandler}
-            placeholder="...todo"
+        <TodoList 
+          todos={this.state.todos} 
+        />
+        
+        <TodoForm 
+          value={this.state.todo}
+          handleInputChange={this.inputChangeHandler}
+          handleFormSubmit={this.formSubmitHandler} 
           />
-          <button type="submit">Add Todo</button>
-          <button>Clear Completed</button>
-        </form>  
-      </div>
-    )
+        </div>
+       
+      
+    );
   } 
 }
 
