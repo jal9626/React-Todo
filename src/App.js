@@ -1,6 +1,8 @@
 import React from 'react';
+
 import TodoList from "./components/TodoComponents/TodoList";
 import TodoForm from "./components/TodoComponents/TodoForm";
+import "./components/TodoComponents/Todo.css";
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
@@ -25,7 +27,7 @@ class App extends React.Component {
   formSubmitHandler = event => {
     event.preventDefault();
     let newTodo = {
-      task: "",
+      task: this.state.todo,
       id: Date.now(),
       completed: false,
     };
@@ -36,23 +38,53 @@ class App extends React.Component {
       };
     });
   };  
+  toggleItem = itemId => {
+    {console.log('clicked')}
+    this.setState(prevState => {
+      return {
+        todos: prevState.todos.map(todoItem => {
+          if (todoItem.id === itemId){
+            return {
+              task: todoItem.task,
+              id: todoItem.id,
+              completed: !todoItem.completed
+            };
+          } else {
+            return todoItem;
+          }
+        })
+      };
+    })
+  }
+
+  clearCompleted = () => {
+    this.setState(prevState => {
+      return {
+        todos: prevState.todos.filter(todoItem => {
+          return !todoItem.completed;
+          
+        })
+      };
+    });
+  };
 
   render() {
     return (
-    
+      
         <div>
         <TodoList 
-          todos={this.state.todos} 
+          todos={this.state.todos} toggleItem={this.toggleItem}
         />
         
         <TodoForm 
           value={this.state.todo}
           handleInputChange={this.inputChangeHandler}
           handleFormSubmit={this.formSubmitHandler} 
+          clearCompleted={this.clearCompleted}
           />
         </div>
-       
-      
+        
+    
     );
   } 
 }

@@ -13,7 +13,7 @@ function TodoForm(props) {
             placeholder="...todo"
           />
           <button type="submit">Add Todo</button>
-          <button>Clear Completed</button>
+          <button onClick={props.clearCompleted}>Clear Completed</button>
         </form>
 
     </div> 
